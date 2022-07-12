@@ -33,9 +33,9 @@ namespace ToDoWebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ToDoClass>> Put(ToDoClass toDo)
+        public async Task<ActionResult<ToDoClass>> Put(int id, ToDoClass toDo)
         {
-            await _service.Update(toDo.Id, toDo.Task);
+            await _service.Update(id, toDo.Task);
             return Ok(toDo);
         }
 

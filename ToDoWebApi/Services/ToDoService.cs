@@ -8,7 +8,7 @@ using ToDoWebApi.DataBase;
 
 namespace ToDoWebApi.Services
 {
-    public class ToDoService
+    public class ToDoService : IToDoService
     {
         private readonly ToDoContext _database;
         public ToDoService(ToDoContext database)
