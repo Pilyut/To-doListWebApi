@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToDoWebApi.Services;
+using ToDoWebApi.DataBase;
 
 namespace ToDoWebApi
 {
@@ -14,6 +16,8 @@ namespace ToDoWebApi
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ToDoService>();
+            services.AddDbContext<ToDoContext>();
             services.AddControllers();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
