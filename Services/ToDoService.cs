@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using ToDoWebApi.DataBase;
+using Data.DataBase;
+using Entities.ToDo;
+using ToDoWebApi.Services;
 
-namespace ToDoWebApi.Services
+namespace Services
 {
     public class ToDoService : IToDoService
     {

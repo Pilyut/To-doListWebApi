@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using ToDoWebApi.Services;
-using ToDoWebApi.DataBase;
+using Entities.ToDo;
+using Services;
 
 namespace ToDoWebApi.Controllers
 {
@@ -13,7 +10,7 @@ namespace ToDoWebApi.Controllers
     [ApiController]
     public class ToDoController : ControllerBase
     {
-        private ToDoService _service;
+        private readonly ToDoService _service;
         public ToDoController(ToDoService service)
         {
             _service = service;
@@ -37,6 +34,14 @@ namespace ToDoWebApi.Controllers
         {
             await _service.Update(id, toDo.Task);
             return Ok(toDo);
+        }
+
+        [Route("mark")]
+        [HttpPut]
+        public async Task<ActionResult<ToDoClass>> Put(int id)
+        {
+            await _service.MarkComplete(id);
+            return Ok();
         }
 
         [HttpDelete]

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Entities.ToDo;
 
-namespace ToDoWebApi.DataBase
+namespace Data.DataBase
 {
     public class ToDoContext : DbContext
     {

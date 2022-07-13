@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ToDoWebApi.DataBase;
+using Entities.ToDo;
 
 namespace ToDoWebApi.Services
 {

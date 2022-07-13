@@ -1,4 +1,4 @@
-﻿namespace ToDoWebApi.DataBase
+﻿namespace Entities.ToDo
 {
     public class ToDoClass
     {
