@@ -11,7 +11,7 @@ namespace ToDoWebApi
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ToDoService>();
+            services.AddScoped(typeof(IToDoService), typeof(ToDoService));
             services.AddDbContext<ToDoContext>();
             services.AddControllers();
         }

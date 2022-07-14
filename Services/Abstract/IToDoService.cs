@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Entities.ToDo;
 
-namespace ToDoWebApi.Services
+namespace Services
 {
     public interface IToDoService
     {

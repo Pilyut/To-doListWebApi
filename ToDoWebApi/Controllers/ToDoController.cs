@@ -10,8 +10,8 @@ namespace ToDoWebApi.Controllers
     [ApiController]
     public class ToDoController : ControllerBase
     {
-        private readonly ToDoService _service;
-        public ToDoController(ToDoService service)
+        private readonly IToDoService _service;
+        public ToDoController(IToDoService service)
         {
             _service = service;
         }
