@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Data.DataBase;
-using Services;
+using DataAccessLayer.EF;
+using BusinessLogicLayer;
 
 namespace ToDoWebApi
 {
@@ -12,6 +12,7 @@ namespace ToDoWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped(typeof(IToDoService), typeof(ToDoService));
+            services.AddAutoMapper(typeof(AppMapping));
             services.AddDbContext<ToDoContext>();
             services.AddControllers();
         }

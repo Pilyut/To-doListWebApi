@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Entities.ToDo;
-using Services;
+using BusinessLogicLayer;
+using BusinessLogicLayer.DTO;
+using AutoMapper;
+using DataAccessLayer.Entities;
 
 namespace ToDoWebApi.Controllers
 {
@@ -17,20 +19,20 @@ namespace ToDoWebApi.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ToDoClass>>> Get()
+        public async Task<ActionResult<IEnumerable<ToDoDTO>>> Get()
         {
             return await _service.GetAllAsync();
         }
 
         [HttpPost]
-        public async Task<ActionResult<ToDoClass>> Post(ToDoClass toDo)
+        public async Task<ActionResult<ToDoDTO>> Post(ToDoDTO toDoDTO)
         {
-            await _service.Add(toDo);
-            return Ok(toDo);
+            await _service.Add(toDoDTO);
+            return Ok(toDoDTO);
         }
 
         [HttpPut]
-        public async Task<ActionResult<ToDoClass>> Put(int id, ToDoClass toDo)
+        public async Task<ActionResult<ToDoDTO>> Put(int id, ToDoDTO toDo)
         {
             await _service.Update(id, toDo.Task);
             return Ok(toDo);
@@ -38,14 +40,14 @@ namespace ToDoWebApi.Controllers
 
         [Route("mark")]
         [HttpPut]
-        public async Task<ActionResult<ToDoClass>> Put(int id)
+        public async Task<ActionResult<ToDoDTO>> Put(int id)
         {
             await _service.MarkComplete(id);
             return Ok();
         }
 
         [HttpDelete]
-        public async Task<ActionResult<ToDoClass>> Delete(int id)
+        public async Task<ActionResult<ToDoDTO>> Delete(int id)
         {
             await _service.Delete(id);
             return Ok();

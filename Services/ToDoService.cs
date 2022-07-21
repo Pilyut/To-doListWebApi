@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Data.DataBase;
-using Entities.ToDo;
+using DataAccessLayer.EF;
+using DataAccessLayer.Entities;
+using BusinessLogicLayer.DTO;
+using AutoMapper;
 
-namespace Services
+namespace BusinessLogicLayer
 {
     public class ToDoService : IToDoService
     {
         private readonly ToDoContext _database;
-        public ToDoService(ToDoContext database)
+        private readonly IMapper _mapper;
+        public ToDoService(ToDoContext database, IMapper mapper)
         {
             _database = database;
+            _mapper = mapper;
         }
-        public async Task Add(ToDoClass list)
+        public async Task Add(ToDoDTO list)
         {
-            await _database.Tasks.AddAsync(list);
+            var task = _mapper.Map<ToDo>(list);
+            await _database.Tasks.AddAsync(task);
             await _database.SaveChangesAsync();
         }
         public async Task Delete(int taskId)
@@ -55,9 +60,16 @@ namespace Services
             task.Status = true;
             await _database.SaveChangesAsync();
         }
-        public async Task<List<ToDoClass>> GetAllAsync()
+        public async Task<List<ToDoDTO>> GetAllAsync()
         {
-            return await _database.Tasks.ToListAsync();
+            List<ToDoDTO> List = new List<ToDoDTO>();
+            var list = await _database.Tasks.ToListAsync();
+            foreach (var task in list)
+            {
+                var todo = _mapper.Map<ToDoDTO>(task);
+                List.Add(todo);
+            }
+            return List;
         }
         public bool HasElement()
         {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Entities.ToDo;
+using DataAccessLayer.Entities;
 
-namespace Data.DataBase
+namespace DataAccessLayer.EF
 {
     public class ToDoContext : DbContext
     {
-        public DbSet<ToDoClass> Tasks { get; set; } = null!;
+        public DbSet<ToDo> Tasks { get; set; } = null!;
         public ToDoContext()
         {
             Database.EnsureCreated();
