@@ -6,6 +6,7 @@ using DataAccessLayer.EF;
 using BusinessLogicLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using ToDoWebApi.Error;
 
 namespace ToDoWebApi
 {
@@ -32,8 +33,8 @@ namespace ToDoWebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<ErrorExceptionMiddleware>();
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
