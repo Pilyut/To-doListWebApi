@@ -4,16 +4,25 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DataAccessLayer.EF;
 using BusinessLogicLayer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace ToDoWebApi
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+        public IConfiguration Configuration { get; }
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped(typeof(IToDoService), typeof(ToDoService));
             services.AddAutoMapper(typeof(AppMapping));
-            services.AddDbContext<ToDoContext>();
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ToDoContext>(options => options.UseSqlite(connection));
             services.AddControllers();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

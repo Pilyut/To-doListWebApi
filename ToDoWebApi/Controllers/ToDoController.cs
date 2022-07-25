@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BusinessLogicLayer;
 using BusinessLogicLayer.DTO;
-using AutoMapper;
-using DataAccessLayer.Entities;
 
 namespace ToDoWebApi.Controllers
 {
@@ -32,10 +30,10 @@ namespace ToDoWebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ToDoDTO>> Put(int id, ToDoDTO toDo)
+        public async Task<ActionResult<ToDoDTO>> Put(int id, string task)
         {
-            await _service.Update(id, toDo.Task);
-            return Ok(toDo);
+            await _service.Update(id, task);
+            return Ok();
         }
 
         [Route("mark")]

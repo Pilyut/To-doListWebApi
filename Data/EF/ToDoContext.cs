@@ -6,13 +6,10 @@ namespace DataAccessLayer.EF
     public class ToDoContext : DbContext
     {
         public DbSet<ToDo> Tasks { get; set; } = null!;
-        public ToDoContext()
+        public ToDoContext(DbContextOptions<ToDoContext> options)
+            : base(options)
         {
             Database.EnsureCreated();
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=./../../../ToDoDataBase.db");
         }
     }
 }
