@@ -7,6 +7,8 @@ using BusinessLogicLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ToDoWebApi.Error;
+using FluentValidation.AspNetCore;
+using ToDoWebApi.FluentValidation;
 
 namespace ToDoWebApi
 {
@@ -24,7 +26,9 @@ namespace ToDoWebApi
             services.AddAutoMapper(typeof(AppMapping));
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ToDoContext>(options => options.UseSqlite(connection));
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ToDoValidator>());
+
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
