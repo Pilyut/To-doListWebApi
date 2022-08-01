@@ -7,6 +7,7 @@ using DataAccessLayer.EF;
 using DataAccessLayer.Entities;
 using BusinessLogicLayer.DTO;
 using AutoMapper;
+using BusinessLogicLayer.Interfaces;
 
 namespace BusinessLogicLayer
 {

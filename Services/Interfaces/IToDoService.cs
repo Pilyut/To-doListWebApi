@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
 
-namespace BusinessLogicLayer
+namespace BusinessLogicLayer.Interfaces
 {
     public interface IToDoService
     {

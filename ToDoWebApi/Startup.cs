@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using ToDoWebApi.Error;
 using FluentValidation.AspNetCore;
 using ToDoWebApi.FluentValidation;
+using BusinessLogicLayer.Interfaces;
 
 namespace ToDoWebApi
 {
@@ -22,6 +23,7 @@ namespace ToDoWebApi
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped(typeof(IUserService), typeof(UserService));
             services.AddScoped(typeof(IToDoService), typeof(ToDoService));
             services.AddAutoMapper(typeof(AppMapping));
             string connection = Configuration.GetConnectionString("DefaultConnection");

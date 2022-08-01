@@ -9,6 +9,7 @@ namespace BusinessLogicLayer
         public AppMapping()
         {
             CreateMap<ToDo, ToDoDTO>().ReverseMap();
+            CreateMap<User, UserDTO>().ReverseMap();
         }
     }
 }
