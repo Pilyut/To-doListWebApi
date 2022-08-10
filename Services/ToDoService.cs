@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -15,70 +14,57 @@ namespace BusinessLogicLayer
     {
         private readonly ToDoContext _database;
         private readonly IMapper _mapper;
+
         public ToDoService(ToDoContext database, IMapper mapper)
         {
             _database = database;
             _mapper = mapper;
         }
-        public async Task Add(ToDoDTO list)
-        {
-            var task = _mapper.Map<ToDo>(list);
-            await _database.Tasks.AddAsync(task);
-            await _database.SaveChangesAsync();
-        }
-        public async Task Delete(int taskId)
-        {
-            var task = await _database.Tasks.FirstOrDefaultAsync(x => x.Id == taskId);
 
-            if (task == null)
-            {
-                throw new Exception("Delete don't work");
-            }
-            _database.Tasks.Remove(task);
-            await _database.SaveChangesAsync();
-        }
-        public async Task Update(int taskId, string str)
+        public async Task<List<ToDoDTO>> GetAllAsync(int id)
         {
-            var task = await _database.Tasks.FirstOrDefaultAsync(x => x.Id == taskId);
-
-            if (task == null)
-            {
-                throw new Exception("Update don't work");
-            }
-            task.Task = str;
-            task.Status = false;
-            _database.Tasks.Update(task);
-            await _database.SaveChangesAsync();
-        }
-        public async Task MarkComplete(int taskId)
-        {
-            var task = await _database.Tasks.FindAsync(taskId);
-
-            if (task == null)
-            {
-                throw new Exception("Mark don't work");
-            }
-            task.Status = true;
-            await _database.SaveChangesAsync();
-        }
-        public async Task<List<ToDoDTO>> GetAllAsync()
-        {
-            List<ToDoDTO> List = new List<ToDoDTO>();
-            var list = await _database.Tasks.ToListAsync();
+            List<ToDoDTO> listDTO = new();
+            var list = await _database.Tasks.Where(p => p.UserId == id).ToListAsync();
             foreach (var task in list)
             {
                 var todo = _mapper.Map<ToDoDTO>(task);
-                List.Add(todo);
+                listDTO.Add(todo);
             }
-            return List;
+            return listDTO;
         }
-        public bool HasElement()
+
+        public async Task Add(ToDoDTO taskDTO, int userId)
         {
-            return _database.Tasks.Any();
+            var task = _mapper.Map<ToDo>(taskDTO);
+            task.UserId = userId;
+            await _database.Tasks.AddAsync(task);
+            await _database.SaveChangesAsync();
         }
-        public bool CheckCount(int s)
+
+        public async Task Update(ToDoDTO toDoDTO, int userId)
         {
-            return _database.Tasks.Count() >= s;
+            var task = await _database.Tasks.FirstOrDefaultAsync(x => x.UserId == userId);
+            task.Task = toDoDTO.Task;
+            _database.Tasks.Update(task);
+            await _database.SaveChangesAsync();
         }
+
+        public async Task MarkComplete(int userId)
+        {
+            var task = await _database.Tasks.FirstOrDefaultAsync(p => p.UserId == userId);
+            task.Status = true;
+            await _database.SaveChangesAsync();
+        }
+
+        public async Task Delete(int todoId)
+        {
+            var task = await _database.Tasks.FirstOrDefaultAsync(x => x.Id == todoId);
+            _database.Tasks.Remove(task);
+            await _database.SaveChangesAsync();
+        }
+
+        
+
+        
     }
 }

@@ -9,6 +9,6 @@ namespace BusinessLogicLayer.Interfaces
         public Task AddUser(UserDTO userDTO);
         public Task DeleteUser(int id);
         public Task UpdateUserName(int id, string newUserName);
-        public Task<List<UserDTO>> GetUsersList();
+        public Task<List<UserDTO>> GetUserList();
     }
 }

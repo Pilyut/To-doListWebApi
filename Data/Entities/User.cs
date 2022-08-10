@@ -8,6 +8,6 @@ namespace DataAccessLayer.Entities
         public string UserName { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public List<ToDo> ToDo { get; set; }
+        public List<ToDo> ToDo { get; set; } = new();
     }
 }

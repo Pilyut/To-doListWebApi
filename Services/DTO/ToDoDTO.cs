@@ -1,4 +1,5 @@
-﻿
+﻿using DataAccessLayer.Entities;
+
 namespace BusinessLogicLayer.DTO
 {
     public class ToDoDTO
@@ -7,5 +8,6 @@ namespace BusinessLogicLayer.DTO
         public string Task { get; set; }
         public bool Status { get; set; }
         public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

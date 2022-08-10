@@ -16,28 +16,32 @@ namespace BusinessLogicLayer
     {
         private readonly ToDoContext _database;
         private readonly IMapper _mapper;
+
         public UserService(ToDoContext database, IMapper mapper)
         {
             _database = database;
             _mapper = mapper;
         }
-        public async Task<List<UserDTO>> GetUsersList()
+
+        public async Task<List<UserDTO>> GetUserList()
         {
             List<UserDTO> listDTO = new();
-            var userList = await _database.Users.ToListAsync();
-            foreach (var user in userList)
+            var list = await _database.Users.ToListAsync();
+            foreach (var user in list)
             {
-                var x = _mapper.Map<UserDTO>(user);
-                listDTO.Add(x);
+                var todo = _mapper.Map<UserDTO>(user);
+                listDTO.Add(todo);
             }
             return listDTO;
         }
+
         public async Task AddUser(UserDTO userDTO)
         {
             var user = _mapper.Map<User>(userDTO);
             await _database.Users.AddAsync(user);
             await _database.SaveChangesAsync();
         }
+
         public async Task UpdateUserName(int id, string newUserName)
         {
             var user = await _database.Users.FirstOrDefaultAsync(x => x.Id == id);
@@ -45,13 +49,12 @@ namespace BusinessLogicLayer
             _database.Users.Update(user);
             await _database.SaveChangesAsync();
         }
+
         public async Task DeleteUser(int id)
         {
             var user = await _database.Users.FirstOrDefaultAsync(x => x.Id == id);
             _database.Users.Remove(user);
             await _database.SaveChangesAsync();
         }
-        
-        
     }
 }

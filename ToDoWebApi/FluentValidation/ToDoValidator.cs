@@ -7,8 +7,8 @@ namespace ToDoWebApi.FluentValidation
     {
         public ToDoValidator()
         {
-            RuleFor(todo => todo.Task).NotEmpty().WithMessage("Task is empty");
-            RuleFor(todo => todo.Task).NotNull().WithMessage("Task is null");
+            RuleFor(todo => todo.Task)
+                .MinimumLength(2).NotEmpty().NotNull().WithMessage("Minimum length - 2 characters");   
         }
     }
 }

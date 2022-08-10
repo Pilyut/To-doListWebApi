@@ -12,27 +12,32 @@ namespace ToDoWebApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _service;
+
         public UserController(IUserService service)
         {
             _service = service;
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> Get()
         {
-            return await _service.GetUsersList();
+            return await _service.GetUserList();
         }
+
         [HttpPost]
         public async Task<ActionResult<UserDTO>> Post(UserDTO userDTO)
         {
             await _service.AddUser(userDTO);
-            return Ok($"User Added (UserName : {userDTO.UserName})");
+            return Ok($"User Added (UserName : {userDTO.UserName}) id this user : {userDTO.Id}");
         }
+
         [HttpPut]
         public async Task<ActionResult<UserDTO>> Put(int id, string newUserName)
         {
             await _service.UpdateUserName(id, newUserName);
             return Ok($"UserName changed to {newUserName}");
         }
+
         [HttpDelete]
         public async Task<ActionResult<UserDTO>> Delete(int id)
         {
