@@ -21,10 +21,10 @@ namespace BusinessLogicLayer
             _mapper = mapper;
         }
 
-        public async Task<List<ToDoDTO>> GetAllAsync(int id)
+        public async Task<List<ToDoDTO>> GetAllAsync(int userId)
         {
             List<ToDoDTO> listDTO = new();
-            var list = await _database.Tasks.Where(p => p.UserId == id).ToListAsync();
+            var list = await _database.Tasks.Where(p => p.UserId == userId).ToListAsync();
             foreach (var task in list)
             {
                 var todo = _mapper.Map<ToDoDTO>(task);
@@ -41,17 +41,17 @@ namespace BusinessLogicLayer
             await _database.SaveChangesAsync();
         }
 
-        public async Task Update(ToDoDTO toDoDTO, int userId)
+        public async Task Update(ToDoDTO toDoDTO, int todoId)
         {
-            var task = await _database.Tasks.FirstOrDefaultAsync(x => x.UserId == userId);
+            var task = await _database.Tasks.FirstOrDefaultAsync(x => x.Id == todoId);
             task.Task = toDoDTO.Task;
             _database.Tasks.Update(task);
             await _database.SaveChangesAsync();
         }
 
-        public async Task MarkComplete(int userId)
+        public async Task MarkComplete(int todoId)
         {
-            var task = await _database.Tasks.FirstOrDefaultAsync(p => p.UserId == userId);
+            var task = await _database.Tasks.FirstOrDefaultAsync(p => p.Id == todoId);
             task.Status = true;
             await _database.SaveChangesAsync();
         }
@@ -62,9 +62,5 @@ namespace BusinessLogicLayer
             _database.Tasks.Remove(task);
             await _database.SaveChangesAsync();
         }
-
-        
-
-        
     }
 }

@@ -18,9 +18,9 @@ namespace ToDoWebApi.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ToDoDTO>>> Get(int id)
+        public async Task<ActionResult<IEnumerable<ToDoDTO>>> Get(int userId)
         {
-            return await _service.GetAllAsync(id);
+            return await _service.GetAllAsync(userId);
         }
 
         [HttpPost]
@@ -31,17 +31,17 @@ namespace ToDoWebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ToDoDTO>> Put(ToDoDTO toDoDTO, int userId)
+        public async Task<ActionResult<ToDoDTO>> Put(ToDoDTO toDoDTO, int todoId)
         {
-            await _service.Update(toDoDTO, userId);
+            await _service.Update(toDoDTO, todoId);
             return Ok();
         }
 
         [Route("mark")]
         [HttpPut]
-        public async Task<ActionResult<ToDoDTO>> Put(int userId)
+        public async Task<ActionResult<ToDoDTO>> Put(int todoId)
         {
-            await _service.MarkComplete(userId);
+            await _service.MarkComplete(todoId);
             return Ok();
         }
 

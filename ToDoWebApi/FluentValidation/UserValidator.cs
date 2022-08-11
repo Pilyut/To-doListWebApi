@@ -11,8 +11,8 @@ namespace ToDoWebApi.FluentValidation
                 .NotEmpty().WithMessage("User name is empty");
             RuleFor(user => user.UserName)
                 .NotNull().WithMessage("User name is null");
-            RuleFor(user => user.Login.ToLower())
-                .NotEmpty().NotNull().EmailAddress().WithMessage("Incorrect Email Address");
+            //RuleFor(user => user.Login.ToLower())
+              //  .NotEmpty().NotNull().EmailAddress().WithMessage("Incorrect Email Address");
         }
     }
 }

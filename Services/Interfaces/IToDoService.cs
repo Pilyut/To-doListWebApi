@@ -11,7 +11,5 @@ namespace BusinessLogicLayer.Interfaces
         Task Update(ToDoDTO toDoDTO, int userId);
         Task MarkComplete(int userId);
         Task Delete(int todoId);
-        
-        
     }
 }
