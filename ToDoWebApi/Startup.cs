@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DataAccessLayer.EF;
-using BusinessLogicLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ToDoWebApi.Middleware;
 using FluentValidation.AspNetCore;
 using ToDoWebApi.FluentValidation;
 using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ToDoWebApi
 {
@@ -23,12 +24,20 @@ namespace ToDoWebApi
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
+            services.AddScoped(typeof(IAccountService), typeof(AccountService));
             services.AddScoped(typeof(IUserService), typeof(UserService));
             services.AddScoped(typeof(IToDoService), typeof(ToDoService));
             services.AddAutoMapper(typeof(AppMapping));
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ToDoContext>(options => options.UseSqlite(connection));
             services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RegisterModelValidator>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginModelValidation>())
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ToDoValidator>())
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserValidator>());
         }
@@ -39,9 +48,10 @@ namespace ToDoWebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseMiddleware<ErrorExceptionMiddleware>();
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -8,11 +8,8 @@ namespace ToDoWebApi.FluentValidation
         public UserValidator()
         {
             RuleFor(user => user.UserName)
-                .NotEmpty().WithMessage("User name is empty");
-            RuleFor(user => user.UserName)
+                .NotEmpty().WithMessage("User name is empty")
                 .NotNull().WithMessage("User name is null");
-            //RuleFor(user => user.Login.ToLower())
-              //  .NotEmpty().NotNull().EmailAddress().WithMessage("Incorrect Email Address");
         }
     }
 }

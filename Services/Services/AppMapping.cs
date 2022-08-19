@@ -2,7 +2,7 @@
 using BusinessLogicLayer.DTO;
 using DataAccessLayer.Entities;
 
-namespace BusinessLogicLayer
+namespace BusinessLogicLayer.Services
 {
     public class AppMapping : Profile
     {

@@ -8,7 +8,7 @@ using BusinessLogicLayer.DTO;
 using AutoMapper;
 using BusinessLogicLayer.Interfaces;
 
-namespace BusinessLogicLayer
+namespace BusinessLogicLayer.Services
 {
     public class ToDoService : IToDoService
     {

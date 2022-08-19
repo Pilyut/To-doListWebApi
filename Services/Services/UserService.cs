@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces;
@@ -9,7 +7,7 @@ using AutoMapper;
 using DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessLogicLayer
+namespace BusinessLogicLayer.Services
 {
     public class UserService : IUserService
     {
