@@ -27,9 +27,8 @@ namespace ToDoWebApi
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/api/Account");
                 });
-            services.AddScoped(typeof(IAccountService), typeof(AccountService));
             services.AddScoped(typeof(IUserService), typeof(UserService));
             services.AddScoped(typeof(IToDoService), typeof(ToDoService));
             services.AddAutoMapper(typeof(AppMapping));

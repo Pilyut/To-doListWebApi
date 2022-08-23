@@ -53,5 +53,16 @@ namespace BusinessLogicLayer.Services
             _database.Users.Remove(user);
             await _database.SaveChangesAsync();
         }
+
+        public async Task<bool> HasUser(UserDTO userDTO)
+        {
+            await _database.Users.FirstOrDefaultAsync(u => u.Login == userDTO.Login && u.Password == userDTO.Password);
+            if (userDTO != null)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }
