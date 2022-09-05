@@ -11,6 +11,7 @@ using ToDoWebApi.FluentValidation;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Swashbuckle.AspNetCore;
 
 namespace ToDoWebApi
 {
@@ -39,6 +40,7 @@ namespace ToDoWebApi
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginModelValidation>())
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ToDoValidator>())
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserValidator>());
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -46,6 +48,9 @@ namespace ToDoWebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
+                
             }
             app.UseMiddleware<ErrorExceptionMiddleware>();
             app.UseRouting();

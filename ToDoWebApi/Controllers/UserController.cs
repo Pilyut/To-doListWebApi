@@ -1,6 +1,5 @@
 ﻿using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,13 +21,6 @@ namespace ToDoWebApi.Controllers
         public async Task<ActionResult<IEnumerable<UserDTO>>> Get()
         {
             return await _service.GetUserList();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<UserDTO>> Post(UserDTO userDTO)
-        {
-            await _service.AddUser(userDTO);
-            return Ok($"User Added (UserName : {userDTO.UserName}) id this user : {userDTO.Id}");
         }
 
         [HttpPut]

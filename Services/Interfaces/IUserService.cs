@@ -11,5 +11,6 @@ namespace BusinessLogicLayer.Interfaces
         public Task UpdateUserName(int id, string newUserName);
         public Task<List<UserDTO>> GetUserList();
         public Task<bool> HasUser(UserDTO userDTO);
+        public Task<bool> IsUserNameTaken(string userName);
     }
 }

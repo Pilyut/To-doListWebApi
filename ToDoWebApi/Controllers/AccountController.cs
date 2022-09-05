@@ -15,30 +15,36 @@ namespace ToDoWebApi.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserService _service;
+
         public AccountController(IUserService service)
         {
             _service = service;
         }
         
-        [HttpPost]
+        [HttpPost("~/Register")]
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            UserDTO user = new UserDTO { Login = $"{model.Email}", Password = $"{model.Password}" };
-            if (await _service.HasUser(user) == false)
+            UserDTO userDTO = new() { Login = model.Email, Password = model.Password, UserName = model.UserName };
+            if (await _service.HasUser(userDTO) == false)
             {
-                await _service.AddUser(user);
-                await Authenticate(model.Email);
+                if (await _service.IsUserNameTaken(model.UserName) == false)
+                {
+                    await _service.AddUser(userDTO);
+                    await Authenticate(model.Email);
+                }
+                else
+                    ModelState.AddModelError("", "Username name is taken");
             }
             else
-                ModelState.AddModelError("", "Wrong login and/or password");
+                ModelState.AddModelError("", "The user with this login is busy");
             return Ok("User created");
         }
         
-        [HttpPost]
+        [HttpPost("~/Login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            UserDTO user = new UserDTO { Login = $"{model.Email}", Password = $"{model.Password}" };
-            if (await _service.HasUser(user))
+            UserDTO userDTO = new() { Login = model.Email, Password = model.Password };
+            if (await _service.HasUser(userDTO))
             {
                 await Authenticate(model.Email);
             }
@@ -54,10 +60,11 @@ namespace ToDoWebApi.Controllers
                 new Claim(ClaimsIdentity.DefaultNameClaimType, login)
             };
 
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            ClaimsIdentity id = new(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
+        [HttpGet("~/Logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

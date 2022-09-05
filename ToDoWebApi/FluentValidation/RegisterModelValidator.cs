@@ -18,6 +18,9 @@ namespace ToDoWebApi.FluentValidation
             RuleFor(model => model.ConfirmPassword)
                 .Equal(model => model.Password)
                 .WithMessage("Passwords don't equal");
+            RuleFor(model => model.UserName)
+                .NotNull()
+                .WithMessage("Enter the UserName");
 
         }
     }

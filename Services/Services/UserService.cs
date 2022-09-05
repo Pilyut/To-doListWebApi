@@ -56,8 +56,19 @@ namespace BusinessLogicLayer.Services
 
         public async Task<bool> HasUser(UserDTO userDTO)
         {
-            await _database.Users.FirstOrDefaultAsync(u => u.Login == userDTO.Login && u.Password == userDTO.Password);
-            if (userDTO != null)
+            User user = await _database.Users.FirstOrDefaultAsync(u => u.Login == userDTO.Login);
+            if (user != null)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public async Task<bool> IsUserNameTaken(string userName)
+        {
+            User user = await _database.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            if (user != null)
             {
                 return true;
             }

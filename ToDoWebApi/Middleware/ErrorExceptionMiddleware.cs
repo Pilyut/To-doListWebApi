@@ -10,11 +10,13 @@ namespace ToDoWebApi.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ErrorExceptionMiddleware> _logger;
+
         public ErrorExceptionMiddleware(RequestDelegate next, ILogger<ErrorExceptionMiddleware> logger)
         {
             _next = next;
             _logger = logger;
         }
+
         public async Task InvokeAsync(HttpContext context)
         {
             try
@@ -27,6 +29,7 @@ namespace ToDoWebApi.Middleware
                 await HandleExceptionAsync(context, ex);
             }
         }
+
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
