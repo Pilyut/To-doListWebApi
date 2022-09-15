@@ -33,18 +33,17 @@ namespace BusinessLogicLayer.Services
             return listDTO;
         }
 
-        public async Task Add(ToDoDTO taskDTO, int userId)
+        public async Task Add(string task, int userId)
         {
-            var task = _mapper.Map<ToDo>(taskDTO);
-            task.UserId = userId;
-            await _database.Tasks.AddAsync(task);
+            ToDo todo = new() { Task = task, UserId = userId };       
+            await _database.Tasks.AddAsync(todo);
             await _database.SaveChangesAsync();
         }
 
-        public async Task Update(ToDoDTO toDoDTO, int todoId)
+        public async Task Update(string updateTask, int todoId)
         {
             var task = await _database.Tasks.FirstOrDefaultAsync(x => x.Id == todoId);
-            task.Task = toDoDTO.Task;
+            task.Task = updateTask;
             _database.Tasks.Update(task);
             await _database.SaveChangesAsync();
         }

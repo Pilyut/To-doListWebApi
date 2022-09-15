@@ -7,8 +7,8 @@ namespace BusinessLogicLayer.Interfaces
     public interface IToDoService
     {
         Task<List<ToDoDTO>> GetAllAsync(int id);
-        Task Add(ToDoDTO taskDTO, int userId);
-        Task Update(ToDoDTO toDoDTO, int userId);
+        Task Add(string task, int userId);
+        Task Update(string newTask, int userId);
         Task MarkComplete(int userId);
         Task Delete(int todoId);
     }

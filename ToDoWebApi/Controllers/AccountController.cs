@@ -31,13 +31,14 @@ namespace ToDoWebApi.Controllers
                 {
                     await _service.AddUser(userDTO);
                     await Authenticate(model.Email);
+                    return Ok("User created");
                 }
                 else
-                    ModelState.AddModelError("", "Username name is taken");
+                    ModelState.AddModelError("", "Username is taken");
             }
             else
-                ModelState.AddModelError("", "The user with this login is busy");
-            return Ok("User created");
+                ModelState.AddModelError("", "User with this email already exists");
+            return BadRequest(ModelState);
         }
         
         [HttpPost("~/Login")]

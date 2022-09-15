@@ -26,17 +26,17 @@ namespace ToDoWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ToDoDTO>> Post(ToDoDTO toDoDTO, int userId)
+        public async Task<ActionResult<ToDoDTO>> Post(string task, int userId)
         {
-            await _service.Add(toDoDTO, userId);
-            return Ok(toDoDTO);
+            await _service.Add(task, userId);
+            return Ok("Task created");
         }
 
         [HttpPut]
-        public async Task<ActionResult<ToDoDTO>> Put(ToDoDTO toDoDTO, int todoId)
+        public async Task<ActionResult<ToDoDTO>> Put(string updateTask, int todoId)
         {
-            await _service.Update(toDoDTO, todoId);
-            return Ok();
+            await _service.Update(updateTask, todoId);
+            return Ok("Task updated");
         }
 
         [Route("mark")]
